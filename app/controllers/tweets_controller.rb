@@ -31,8 +31,13 @@ class TweetsController < ApplicationController
   end
 
   def update
-    tweet = Tweet.find(params[:id])
-    tweet.update(tweet_params)
+    @tweet = Tweet.find(params[:id])
+    #バリデーションに引っかからず更新されれば、「更新完了」の画面が呼び出される
+    if @tweet.update(tweet_params)
+    else
+      #バリデーションに引っかかり保存されなければ、「編集」の画面が呼び出される
+      render 'edit'
+    end
   end
 
   def show
